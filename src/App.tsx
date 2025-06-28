@@ -13,7 +13,7 @@ function App() {
 
   return (
     <>
-    <button onClick={onClose}>Закрыть</button>
+    <h1>Hello world</h1>
     </>
   )
 }
