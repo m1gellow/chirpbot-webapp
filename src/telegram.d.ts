@@ -6,6 +6,7 @@ declare global {
         ready: () => void;
         initData: string;
         initDataUnsafe: any;
+        MainButton: any
         // и другие свойства/методы, которые вам нужны
       };
     };
