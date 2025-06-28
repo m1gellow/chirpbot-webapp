@@ -1,4 +1,4 @@
-import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
+import { useCallback, useEffect, useState} from 'react';
 import './Form.css';
 import { useTelegram } from '../../hooks/useTelegram';
 
@@ -9,6 +9,24 @@ export const Form = () => {
     type: 'individual'
   });
   const {tg} = useTelegram()
+
+  const onSendData  =useCallback(() => {
+    const data = {
+        city: formData.city,
+        name: formData.name,
+    }
+    tg.sendData(JSON.stringify(data))
+  }, [])
+
+
+
+  useEffect(() => {
+    tg.onEvent('mainButtonClicked', onSendData)
+    return () => {
+      tg.offEvent('mainButtonClicked', onSendData)
+    }
+  }, [])
+
 
   useEffect(() => {
     tg.MainButton.setParams({
@@ -24,12 +42,12 @@ export const Form = () => {
         }
   }, [formData.city, formData.name])
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
   };
